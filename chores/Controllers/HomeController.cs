@@ -12,7 +12,8 @@ namespace chores.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            var model = new List<string>{ "Put on PJ's", "Dirty laundry in laundry basket", "Teeth brushed"};
+            return View(model);
         }
 
         public IActionResult Privacy()

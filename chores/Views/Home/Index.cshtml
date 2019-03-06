@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<string>
+@using System.Collections.Generic
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -6,20 +8,13 @@
     <h1>Will's Chores</h1>
 
 
-<div class="list">
-    <label>
-        <input type="checkbox"/>
-        Put on PJ's
-    </label>
-
-    <label>
-        <input type="checkbox"/>
-        Dirty laundry in laundry basket
-    </label>
-
-    <label>
-        <input type="checkbox"/>
-        Teeth brushed
-    </label>
+    <div class="list">
+        @foreach(var item in Model ?? new List<string>{}) 
+        {
+            <label>
+            <input type="checkbox"/>
+                @item
+            </label>
+        }
     </div>
 </div>
