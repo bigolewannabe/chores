@@ -5,14 +5,21 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using chores.Models;
+using chores.Services;
 
 namespace chores.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IChoreService choreService;
+        public HomeController(IChoreService choreService)
+        {
+            this.choreService = choreService;
+        }
+
         public IActionResult Index()
         {
-            var model = new List<string>{ "Put on PJ's", "Dirty laundry in laundry basket", "Teeth brushed"};
+            var model = choreService.GetChores().Select(c => c.Name);
             return View(model);
         }
 

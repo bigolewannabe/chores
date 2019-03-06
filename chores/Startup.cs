@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using chores.Services;
+using chores.Models;
 
 namespace chores
 {
@@ -31,6 +33,13 @@ namespace chores
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddScoped<IChoreService, InMemoryChoreService>();
+            InMemoryChoreService.Chores = new List<Chore>
+            {
+                new Chore() { ChoreId = 1, Name = "Put on PJ's"},
+                new Chore() { ChoreId = 2, Name = "Dirty laundry in laundry basket"},
+                new Chore() { ChoreId = 3, Name = "Teeth brushed"}
+            };
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
