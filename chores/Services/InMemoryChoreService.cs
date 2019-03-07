@@ -11,9 +11,12 @@ namespace chores.Services
 
         public IQueryable<Chore> GetChores() => Chores.AsQueryable();
 
-        public void UpdateChores(IEnumerable<Chore> chores)
+        public void UpdateChores(Chore chore)
         {
-            Chores = chores.ToList();
+            var toUpdate = Chores.Single(c => c.ChoreId == chore.ChoreId);
+            toUpdate.DirtyLaundry = chore.DirtyLaundry;
+            toUpdate.PutOnPJs = chore.PutOnPJs;
+            toUpdate.TeethBrushed = chore.TeethBrushed;
         }
     }
 }

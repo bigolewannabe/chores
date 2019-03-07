@@ -1,5 +1,6 @@
-﻿@model IEnumerable<string>
+﻿@using chores.Models;
 @using System.Collections.Generic
+@model Chore
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -8,13 +9,23 @@
     <h1>Will's Chores</h1>
 
 
-    <div class="list">
-        @foreach(var item in Model ?? new List<string>{}) 
-        {
-            <label>
-            <input type="checkbox"/>
-                @item
-            </label>
-        }
-    </div>
+    <form asp-action="Index" method="post">
+        <div class="list">
+        <input type="hidden" asp-for="ChoreId">
+                    <label asp-for="PutOnPJs">
+                    <input asp-for="PutOnPJs">
+                        Put on PJ's
+                    </label>
+                    <label asp-for="DirtyLaundry">
+                    <input asp-for="DirtyLaundry">
+                        Dirty laundry in laundry basket
+                    </label>
+                    <label asp-for="TeethBrushed">
+                    <input asp-for="TeethBrushed">
+                        Teeth brushed
+                    </label>
+
+                <input type="submit" value="Save"/>
+        </div>
+    </form>
 </div>

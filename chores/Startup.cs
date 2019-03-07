@@ -36,9 +36,7 @@ namespace chores
             services.AddScoped<IChoreService, InMemoryChoreService>();
             InMemoryChoreService.Chores = new List<Chore>
             {
-                new Chore() { ChoreId = 1, Name = "Put on PJ's"},
-                new Chore() { ChoreId = 2, Name = "Dirty laundry in laundry basket"},
-                new Chore() { ChoreId = 3, Name = "Teeth brushed"}
+                new Chore() {ChoreId = 1}
             };
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

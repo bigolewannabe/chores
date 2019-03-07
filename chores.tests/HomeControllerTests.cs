@@ -7,6 +7,7 @@ using NSubstitute;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 
 namespace chores.tests 
 {
@@ -14,16 +15,17 @@ namespace chores.tests
     public class HomeControllerTests 
     {
         [Test]
-        public void HomeController_Index_ModelIsListOfChores() 
+        public void HomeController_Index_ModelIsChore() 
         {
+            var chore =new Chore { ChoreId = 1};
             var fakeChoreService = Substitute.For<IChoreService>();
-            fakeChoreService.GetChores().Returns(new List<Chore> { new Chore { Name = "First"}}.AsQueryable());
+            fakeChoreService.GetChores().Returns(new List<Chore> {chore} .AsQueryable());
 
-            var controller = new HomeController(fakeChoreService);
+            var controller = new HomeController(fakeChoreService, Substitute.For<ILogger<HomeController>>());
             var result = controller.Index() as ViewResult;
-            var model = result.Model as IEnumerable<string>;
+            var model = result.Model as Chore;
 
-            Assert.That(model.First(), Is.EqualTo("First"));
+            Assert.That(model, Is.EqualTo(chore));
         }
     }
 }

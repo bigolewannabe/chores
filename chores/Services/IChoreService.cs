@@ -6,6 +6,6 @@ namespace chores.Services
     {
     public interface IChoreService {
         IQueryable<Chore> GetChores();
-        void UpdateChores(IEnumerable<Chore> chores);
+        void UpdateChores(Chore chore);
     }
 }

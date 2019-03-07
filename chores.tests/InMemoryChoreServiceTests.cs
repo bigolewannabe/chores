@@ -13,34 +13,27 @@ namespace chores.tests
         [Test]
         public void InMemoryChoreRepository_GetChores_ReturnsChoresItHas()
         {
-            InMemoryChoreService.Chores = new List<Chore>{ new Chore { ChoreId = 1, Name = "First"}};
+            var chore =  new Chore { ChoreId = 1};
+            InMemoryChoreService.Chores = new List<Chore>{chore} ;
 
             var service = new InMemoryChoreService();
 
-            var chore = service.GetChores().Single();
+            var retrieved = service.GetChores().Single();
 
-            Assert.Multiple(() => 
-            {
-                Assert.That(chore.ChoreId, Is.EqualTo(1));
-                Assert.That(chore.Name, Is.EqualTo("First"));
-            });
+            Assert.That(retrieved, Is.EqualTo(chore));
         }
 
         [Test]
         public void InMemroyChoreService_UpdateChores_SetsNewChores() 
         {
-            InMemoryChoreService.Chores = new List<Chore>{ new Chore { ChoreId = 1, Name = "First"}};
+            InMemoryChoreService.Chores = new List<Chore>{ new Chore { ChoreId = 1}};
 
             var service = new InMemoryChoreService();
-            service.UpdateChores(new List<Chore> { new Chore { ChoreId = 1, Name = "Second"}});
+            service.UpdateChores(new Chore { ChoreId = 1, TeethBrushed=true});
 
             var chore = service.GetChores().Single();
 
-            Assert.Multiple(() => 
-            {
-                Assert.That(chore.ChoreId, Is.EqualTo(1));
-                Assert.That(chore.Name, Is.EqualTo("Second"));
-            });
+            Assert.That(chore.TeethBrushed, Is.True);
         }
     }
 }
