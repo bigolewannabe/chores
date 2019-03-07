@@ -27,5 +27,17 @@ namespace chores.tests
 
             Assert.That(model, Is.EqualTo(chore));
         }
+
+        [Test]
+        public void HomeController_PostToIndex_UpdatesAndRedirectsToIndex() 
+        {
+            var fakeChoreService = Substitute.For<IChoreService>();
+            var controller = new HomeController(fakeChoreService, Substitute.For<ILogger<HomeController>>());
+
+            var result = controller.Index(new Chore{ChoreId=1});
+
+            Assert.That(result, Is.TypeOf<RedirectToActionResult>());
+            fakeChoreService.Received(1).UpdateChores(Arg.Any<Chore>());
+        }
     }
 }
