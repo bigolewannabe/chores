@@ -5,22 +5,25 @@ using OpenQA.Selenium.Chrome;
 using chores;
 using System.Net.Http;
 using System.Linq;
+using System.Threading;
+using System;
 
 namespace Tests
 {
+    [SingleThreaded]
     public class Tests
     {
         private LiveWebApplicationFactory<Startup> server;
         private IWebDriver browser;
         private HttpClient client;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void Setup()
         {
             server = new LiveWebApplicationFactory<Startup>();
             client = server.CreateClient();
             var options = new ChromeOptions();
-            options.AddArgument("--headless");
+            //options.AddArgument("--headless");
             browser = new ChromeDriver(options);
         }
 
@@ -40,10 +43,35 @@ namespace Tests
             });
         }
 
-        [TearDown]
+        [Test]
+        public void ToggleFirstListEntry() 
+        {
+            browser.Navigate().GoToUrl(server.RootUri);
+
+            var checkboxes = browser.FindElements(By.CssSelector("input[type=checkbox]"));
+            Assert.That(checkboxes, Has.Exactly(3).Items);
+
+            var firstCheckbox = checkboxes.First();
+            bool wasSelected = firstCheckbox.Selected;
+            
+            firstCheckbox.Click();
+
+            Thread.Sleep(2000);
+            
+            browser.FindElement(By.CssSelector("input[type=submit]")).Click();
+
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            
+            var firstCheckboxAgain = browser.FindElement(By.CssSelector("input[type=checkbox]"));
+
+            Assert.That(firstCheckboxAgain.Selected, Is.Not.EqualTo(wasSelected));
+        }
+
+        [OneTimeTearDown]
         public void CleanUp() 
         {
             browser.Dispose();
+            server.Dispose();
         }
     }
 }
